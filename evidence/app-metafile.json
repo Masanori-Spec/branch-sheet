@@ -17,7 +17,7 @@
       "format": "esm"
     },
     "public/app.mjs": {
-      "bytes": 15916,
+      "bytes": 16071,
       "imports": [
         {
           "path": "src/review.mjs",
@@ -41,10 +41,10 @@
           "bytesInOutput": 219
         },
         "public/app.mjs": {
-          "bytesInOutput": 101034
+          "bytesInOutput": 101188
         }
       },
-      "bytes": 101685
+      "bytes": 101839
     }
   }
 }
