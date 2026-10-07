@@ -2,7 +2,7 @@
 
 Original BranchSheet code has no license grant in this repository. These notices cover dependencies only; their licenses do not license the original project code.
 
-Runtime versions are locked in package-lock.json: fflate 0.8.2 (MIT), saxes 6.0.0 (ISC, with inherited notices), and xmlchars 2.2.0 (MIT). No dependency source or binaries are vendored in the source archive. Full notices are retained here for later distributable builds.
+Runtime versions are locked in package-lock.json: fflate 0.8.2 (MIT), saxes 6.0.0 (ISC, with inherited notices), and xmlchars 2.2.0 (MIT). The standalone offline HTML bundles the JavaScript runtime of these three packages and embeds their complete notices. Development build and test tools are not bundled. No native dependency binaries are included in the source archive.
 
 Freeplane 1.13.3, LibreOffice and Openbox are external test-only applications, not linked or bundled into BranchSheet. CI fetches/installs official distributions with their upstream notices and excludes them from uploaded artifacts. Their distribution terms are available at https://github.com/freeplane/freeplane , https://www.libreoffice.org/about-us/licenses/ and in the official Ubuntu Openbox package's copyright file.
 

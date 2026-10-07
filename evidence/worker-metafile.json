@@ -1,0 +1,240 @@
+{
+  "inputs": {
+    "src/limits.mjs": {
+      "bytes": 1582,
+      "imports": [],
+      "format": "esm"
+    },
+    "node_modules/xmlchars/xml/1.0/ed5.js": {
+      "bytes": 3342,
+      "imports": [],
+      "format": "cjs"
+    },
+    "node_modules/xmlchars/xml/1.1/ed2.js": {
+      "bytes": 4737,
+      "imports": [],
+      "format": "cjs"
+    },
+    "node_modules/xmlchars/xmlns/1.0/ed3.js": {
+      "bytes": 2253,
+      "imports": [],
+      "format": "cjs"
+    },
+    "node_modules/saxes/saxes.js": {
+      "bytes": 73792,
+      "imports": [
+        {
+          "path": "node_modules/xmlchars/xml/1.0/ed5.js",
+          "kind": "require-call",
+          "original": "xmlchars/xml/1.0/ed5"
+        },
+        {
+          "path": "node_modules/xmlchars/xml/1.1/ed2.js",
+          "kind": "require-call",
+          "original": "xmlchars/xml/1.1/ed2"
+        },
+        {
+          "path": "node_modules/xmlchars/xmlns/1.0/ed3.js",
+          "kind": "require-call",
+          "original": "xmlchars/xmlns/1.0/ed3"
+        }
+      ],
+      "format": "cjs"
+    },
+    "src/xml.mjs": {
+      "bytes": 1683,
+      "imports": [
+        {
+          "path": "node_modules/saxes/saxes.js",
+          "kind": "import-statement",
+          "original": "saxes"
+        },
+        {
+          "path": "src/limits.mjs",
+          "kind": "import-statement",
+          "original": "./limits.mjs"
+        }
+      ],
+      "format": "esm"
+    },
+    "src/map.mjs": {
+      "bytes": 2940,
+      "imports": [
+        {
+          "path": "src/limits.mjs",
+          "kind": "import-statement",
+          "original": "./limits.mjs"
+        },
+        {
+          "path": "src/xml.mjs",
+          "kind": "import-statement",
+          "original": "./xml.mjs"
+        }
+      ],
+      "format": "esm"
+    },
+    "node_modules/fflate/esm/browser.js": {
+      "bytes": 89198,
+      "imports": [],
+      "format": "esm"
+    },
+    "src/zip.mjs": {
+      "bytes": 5060,
+      "imports": [
+        {
+          "path": "node_modules/fflate/esm/browser.js",
+          "kind": "import-statement",
+          "original": "fflate"
+        },
+        {
+          "path": "src/limits.mjs",
+          "kind": "import-statement",
+          "original": "./limits.mjs"
+        }
+      ],
+      "format": "esm"
+    },
+    "src/ooxml-grammar.mjs": {
+      "bytes": 7689,
+      "imports": [
+        {
+          "path": "src/limits.mjs",
+          "kind": "import-statement",
+          "original": "./limits.mjs"
+        }
+      ],
+      "format": "esm"
+    },
+    "src/workbook.mjs": {
+      "bytes": 22753,
+      "imports": [
+        {
+          "path": "src/limits.mjs",
+          "kind": "import-statement",
+          "original": "./limits.mjs"
+        },
+        {
+          "path": "src/xml.mjs",
+          "kind": "import-statement",
+          "original": "./xml.mjs"
+        },
+        {
+          "path": "src/zip.mjs",
+          "kind": "import-statement",
+          "original": "./zip.mjs"
+        },
+        {
+          "path": "src/ooxml-grammar.mjs",
+          "kind": "import-statement",
+          "original": "./ooxml-grammar.mjs"
+        }
+      ],
+      "format": "esm"
+    },
+    "src/engine.mjs": {
+      "bytes": 1915,
+      "imports": [
+        {
+          "path": "src/map.mjs",
+          "kind": "import-statement",
+          "original": "./map.mjs"
+        },
+        {
+          "path": "src/workbook.mjs",
+          "kind": "import-statement",
+          "original": "./workbook.mjs"
+        },
+        {
+          "path": "src/limits.mjs",
+          "kind": "import-statement",
+          "original": "./limits.mjs"
+        }
+      ],
+      "format": "esm"
+    },
+    "src/review.mjs": {
+      "bytes": 2645,
+      "imports": [
+        {
+          "path": "src/limits.mjs",
+          "kind": "import-statement",
+          "original": "./limits.mjs"
+        }
+      ],
+      "format": "esm"
+    },
+    "src/worker.mjs": {
+      "bytes": 2307,
+      "imports": [
+        {
+          "path": "src/engine.mjs",
+          "kind": "import-statement",
+          "original": "./engine.mjs"
+        },
+        {
+          "path": "src/review.mjs",
+          "kind": "import-statement",
+          "original": "./review.mjs"
+        },
+        {
+          "path": "src/limits.mjs",
+          "kind": "import-statement",
+          "original": "./limits.mjs"
+        }
+      ],
+      "format": "esm"
+    }
+  },
+  "outputs": {
+    "worker.js": {
+      "imports": [],
+      "exports": [],
+      "entryPoint": "src/worker.mjs",
+      "inputs": {
+        "node_modules/xmlchars/xml/1.0/ed5.js": {
+          "bytesInOutput": 1546
+        },
+        "node_modules/xmlchars/xml/1.1/ed2.js": {
+          "bytesInOutput": 1902
+        },
+        "node_modules/xmlchars/xmlns/1.0/ed3.js": {
+          "bytesInOutput": 1119
+        },
+        "node_modules/saxes/saxes.js": {
+          "bytesInOutput": 23578
+        },
+        "src/limits.mjs": {
+          "bytesInOutput": 1079
+        },
+        "src/xml.mjs": {
+          "bytesInOutput": 1083
+        },
+        "src/map.mjs": {
+          "bytesInOutput": 1772
+        },
+        "node_modules/fflate/esm/browser.js": {
+          "bytesInOutput": 11561
+        },
+        "src/zip.mjs": {
+          "bytesInOutput": 2900
+        },
+        "src/ooxml-grammar.mjs": {
+          "bytesInOutput": 6003
+        },
+        "src/workbook.mjs": {
+          "bytesInOutput": 16408
+        },
+        "src/engine.mjs": {
+          "bytesInOutput": 1041
+        },
+        "src/review.mjs": {
+          "bytesInOutput": 1604
+        },
+        "src/worker.mjs": {
+          "bytesInOutput": 1570
+        }
+      },
+      "bytes": 73716
+    }
+  }
+}

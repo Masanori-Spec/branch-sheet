@@ -5,11 +5,11 @@
   "added": 100,
   "annotationStringsChecked": 60300,
   "inputMapBytes": 927303,
-  "priorBytes": 1404376,
-  "outputBytes": 1411672,
-  "initialAndAnnotationMilliseconds": 8252,
-  "refreshMilliseconds": 13120,
-  "totalMilliseconds": 27363,
-  "maxRssKiB": 567056,
+  "priorBytes": 1425867,
+  "outputBytes": 1433771,
+  "initialAndAnnotationMilliseconds": 8919,
+  "refreshMilliseconds": 15629,
+  "totalMilliseconds": 31250,
+  "maxRssKiB": 575620,
   "scope": "Core synthetic scale; native Calc reopen is a separate CI check"
 }

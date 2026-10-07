@@ -26,5 +26,5 @@ export function refresh(mapBytes, priorBytes = null) {
   // Check the emitted schema, typed strings and exact snapshots before release.
   const verified = readWorkbook(workbook);
   assert(JSON.stringify(verified) === JSON.stringify(data), 'Generated workbook did not round-trip exactly');
-  return { workbook, report, data };
+  return { workbook, report, data, previous: prior };
 }

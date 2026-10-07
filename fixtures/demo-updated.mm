@@ -1,0 +1,1 @@
+<map version="freeplane 1.12.15"><node ID="ID_1000001" TEXT="Catalog"><node ID="ID_1000002" TEXT="Products"><node ID="ID_DEMO_NEW" TEXT="New"/></node><node ID="ID_1000003" TEXT="Services"><node ID="ID_1000004" TEXT="Beta"/></node></node></map>

@@ -28,6 +28,8 @@ for (const row of updated.data.active) assert.deepEqual(row.annotations, old.get
 for (const row of updated.data.removed) assert.deepEqual(row.annotations, old.get(row.id));
 assert.deepEqual(readWorkbook(updated.workbook), updated.data);
 await writeFile(`${directory}/scale-refreshed.xlsx`, updated.workbook);
+await writeFile(`${directory}/scale-updated.mm`, build(true));
+await writeFile(`${directory}/scale-prior.xlsx`, prior);
 const result = { nodes: 20000, removed: 100, renamed: 100, added: 100, annotationStringsChecked: 60300, inputMapBytes: build(true).length, priorBytes: prior.length, outputBytes: updated.workbook.length, initialAndAnnotationMilliseconds: Math.round(annotatedAt - begin), refreshMilliseconds: Math.round(refreshedAt - annotatedAt), totalMilliseconds: Math.round(performance.now() - begin), maxRssKiB: process.resourceUsage().maxRSS, scope: 'Core synthetic scale; native Calc reopen is a separate CI check' };
 assert(result.totalMilliseconds < 120000, 'Scale budget: 120 seconds');
 assert(result.maxRssKiB < 1024 * 1024, 'Scale budget: 1 GiB peak RSS');

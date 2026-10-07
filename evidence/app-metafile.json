@@ -1,0 +1,50 @@
+{
+  "inputs": {
+    "src/limits.mjs": {
+      "bytes": 1582,
+      "imports": [],
+      "format": "esm"
+    },
+    "src/review.mjs": {
+      "bytes": 2645,
+      "imports": [
+        {
+          "path": "src/limits.mjs",
+          "kind": "import-statement",
+          "original": "./limits.mjs"
+        }
+      ],
+      "format": "esm"
+    },
+    "public/app.mjs": {
+      "bytes": 15916,
+      "imports": [
+        {
+          "path": "src/review.mjs",
+          "kind": "import-statement",
+          "original": "../src/review.mjs"
+        }
+      ],
+      "format": "esm"
+    }
+  },
+  "outputs": {
+    "app.js": {
+      "imports": [],
+      "exports": [],
+      "entryPoint": "public/app.mjs",
+      "inputs": {
+        "src/limits.mjs": {
+          "bytesInOutput": 420
+        },
+        "src/review.mjs": {
+          "bytesInOutput": 219
+        },
+        "public/app.mjs": {
+          "bytesInOutput": 101034
+        }
+      },
+      "bytes": 101685
+    }
+  }
+}

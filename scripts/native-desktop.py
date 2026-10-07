@@ -5,7 +5,9 @@ ROOT = pathlib.Path(__file__).resolve().parents[1]
 
 def main():
     assert os.environ.get('GITHUB_ACTIONS') == 'true' and os.environ.get('DISPLAY'), 'Hosted disposable-display gate only'
-    with (ROOT / 'evidence/openbox.log').open('w') as log:
+    assert sys.argv[1:] in ([], ['--browser-consumer']), 'Unknown native gate mode'
+    browser = sys.argv[1:] == ['--browser-consumer']
+    with (ROOT / ('evidence/browser-openbox.log' if browser else 'evidence/openbox.log')).open('w') as log:
         manager = subprocess.Popen(['openbox', '--config-file', '/etc/xdg/openbox/rc.xml'], stdout=log, stderr=subprocess.STDOUT)
         try:
             ready = False; end = time.monotonic() + 15
@@ -16,8 +18,11 @@ def main():
                 assert manager.poll() is None, 'Window manager exited during startup'
                 time.sleep(.2)
             assert ready, 'Window-manager activation support unavailable'
-            subprocess.run([sys.executable, 'scripts/freeplane-native.py'], cwd=ROOT, check=True, timeout=600)
-            subprocess.run(['/usr/bin/python3', 'scripts/calc-native.py'], cwd=ROOT, check=True, timeout=900)
+            if browser:
+                subprocess.run(['/usr/bin/python3', 'scripts/consume-browser.py'], cwd=ROOT, check=True, timeout=900)
+            else:
+                subprocess.run([sys.executable, 'scripts/freeplane-native.py'], cwd=ROOT, check=True, timeout=600)
+                subprocess.run(['/usr/bin/python3', 'scripts/calc-native.py'], cwd=ROOT, check=True, timeout=900)
         finally:
             manager.terminate()
             try: manager.wait(timeout=10)

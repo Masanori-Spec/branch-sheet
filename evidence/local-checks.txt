@@ -1,0 +1,75 @@
+
+> branch-sheet@0.1.0 test
+> npm run build && node --test tests/*.test.mjs
+
+
+> branch-sheet@0.1.0 build
+> node scripts/build-ui.mjs
+
+Single-file offline app: 123478 bytes; bundles fflate, saxes, xmlchars
+✔ exact IDs carry literal strings across rename/move, retaining removed and blank new rows (70.206345ms)
+✔ unchanged refresh is byte deterministic and restored IDs recover annotations (86.134312ms)
+✔ literal ST_Xstring patterns, CRLF, tabs, astral Unicode and formula-looking strings round-trip as text (20.511535ms)
+✔ whole rows may be sorted without breaking metadata identity (51.745505ms)
+✔ reject missing ID (0.777058ms)
+✔ reject duplicate ID (0.267947ms)
+✔ reject multiple roots (0.21935ms)
+✔ reject clone (0.184014ms)
+✔ reject content clone (0.2838ms)
+✔ reject encrypted (0.36646ms)
+✔ reject rich core (0.209187ms)
+✔ reject HTML TEXT core (0.28025ms)
+✔ reject mixed-case HTML TEXT core (0.547661ms)
+✔ reject formula (0.255753ms)
+✔ reject typed core (0.141152ms)
+✔ reject localized core (0.145298ms)
+✔ reject DTD (0.699346ms)
+✔ reject processing instruction (0.324139ms)
+✔ ignored notes and style XML are excluded, never evaluated (0.321287ms)
+✔ fatal UTF-8 and too-deep maps reject (2.014233ms)
+✔ different root IDs reject rather than guessing by label (19.8239ms)
+✔ changed reserved parent, label, ID, missing row and duplicate row reject (47.700429ms)
+✔ formula, numeric annotation, unknown column, changed header and renamed sheet reject (45.817477ms)
+✔ unknown ZIP parts and external links fail before parsing cells (14.894244ms)
+✔ ZIP CRC and declared expansion are independently checked (11.33439ms)
+✔ literal duplicate labels never join annotations to a replacement ID (25.218507ms)
+✔ unsupported OOXML direct inline text rejects without losing data (61.331679ms)
+✔ unsupported OOXML run without inline wrapper rejects without losing data (22.67238ms)
+✔ unsupported OOXML child inside text rejects without losing data (21.837817ms)
+✔ unsupported OOXML unknown cell attribute rejects without losing data (21.156953ms)
+✔ unsupported OOXML missing inline payload rejects without losing data (17.163707ms)
+✔ unsupported OOXML mixed text and runs rejects without losing data (15.455394ms)
+✔ unsupported OOXML unknown worksheet element rejects without losing data (14.629896ms)
+✔ unsupported OOXML repeated sheet data rejects without losing data (14.981222ms)
+✔ required content types and package relationships are validated (54.210536ms)
+✔ ST_Xstring decoding is per complete t element, never across rich-text runs (43.115981ms)
+✔ single-handle bounded read rejects growth beyond the inspected size (1.712911ms)
+✔ FIFO and symlink inputs reject promptly; opened handles survive pathname replacement (25.692053ms)
+✔ byte-identical real Calc-saved workbook retains exact typed annotation values and reserved IDs (75.010152ms)
+✔ native metadata compatibility still rejects unknown extension URI (34.237895ms)
+✔ native metadata compatibility still rejects wrong extension namespace (29.711108ms)
+✔ native metadata compatibility still rejects unknown syntax value (20.049169ms)
+✔ native metadata compatibility still rejects extra payload attribute (22.77167ms)
+✔ native metadata compatibility still rejects extra extension attribute (16.796823ms)
+✔ native metadata compatibility still rejects extra payload child (12.952028ms)
+✔ native metadata compatibility still rejects missing payload (10.739715ms)
+✔ native metadata compatibility still rejects duplicate payload (14.242971ms)
+✔ native metadata compatibility still rejects nonempty protection (11.848221ms)
+✔ native metadata compatibility still rejects different date compatibility (13.955924ms)
+✔ known Calc metadata does not permit formulas or extensions in other parts (15.029483ms)
+✔ native empty cells are blank; malformed shared-string indexes still reject (56.823694ms)
+✔ unused native MIME declarations and exact metadata relationships do not admit other parts or targets (69.769987ms)
+✔ known extension cannot move outside its single workbook extension slot or carry text (33.992099ms)
+✔ review exposes exact before/after move and label with independent unchanged annotation strings (49.246843ms)
+✔ worker review pages are capped at 50 and every query is bounded (20.614724ms)
+✔ multiline workbook rows have explicit readable heights without altering strings (29.510863ms)
+✔ actual bundled worker returns deterministic XLSX and hashes, rejects family mismatch without echo (137.078942ms)
+✔ ancestor renames and sibling reorder do not incorrectly mark reserved tree changes as unchanged (19.819049ms)
+ℹ tests 58
+ℹ suites 0
+ℹ pass 58
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 605.69684
