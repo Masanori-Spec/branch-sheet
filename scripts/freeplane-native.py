@@ -54,12 +54,18 @@ def main():
         windows = [value for value in ids if current.stem.lower() in run('xdotool', 'getwindowname', value).stdout.lower()]
         if not windows: return None
         assert len(windows) == 1, 'Ambiguous synthetic map window'
-        window = windows[-1]; run('xdotool', 'windowfocus', '--sync', window)
-        run('xdotool', 'windowsize', window, '1500', '920'); return window
+        window = windows[-1]
+        run('xdotool', 'windowsize', window, '1500', '920')
+        run('xdotool', 'windowactivate', '--sync', window)
+        assert run('xdotool', 'getactivewindow').stdout.strip() == window, 'Synthetic map window is not active'
+        return window
     def open_node(node_id, verify_clipboard=True):
         run(*command, current.as_uri() + '#' + node_id, timeout=40)
         time.sleep(.6); wait(focus, 'Synthetic native map window is not selected')
         if verify_clipboard:
+            # A fresh sentinel prevents stale clipboard contents from satisfying a repeated-ID check.
+            subprocess.run(['xclip', '-selection', 'clipboard', '-i'], input='BRANCHSHEET_PENDING_ID', text=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=True, timeout=5)
+            STEPS.append({'action': 'copy-id-attempt', 'expectedId': node_id, 'activeWindow': run('xdotool', 'getactivewindow').stdout.strip(), 'inputFocus': run('xdotool', 'getwindowfocus').stdout.strip()})
             key('ctrl+alt+i')
             observed = wait(lambda: run('xclip', '-selection', 'clipboard', '-o').stdout == node_id, 'Native selection did not match exact ID')
             assert observed
@@ -104,7 +110,7 @@ def main():
         assert parse(OUT / 'before.mm') == expected_before()
         assert parse(OUT / 'updated.mm') == updated and parse(OUT / 'restored.mm') == with_z
         (OUT / 'freeplane-result.json').write_text(json.dumps({'ids': IDS, 'steps': STEPS, 'before': expected_before(), 'updated': updated, 'restored': with_z, 'scope': 'Unmodified Freeplane GUI save/reopen/rename/move/add/delete/undo on one synthetic map; no scripts or formula evaluation'}, indent=2) + '\n')
-        key('ctrl+q'); process.wait(timeout=20)
+        key('ctrl+q'); assert process.wait(timeout=20) == 0, 'Freeplane exited unsuccessfully'
     finally:
         visible = []
         try:
@@ -112,6 +118,7 @@ def main():
                 visible.append({'window': window, 'title': run('xdotool', 'getwindowname', window).stdout.strip()[:512]})
         except (subprocess.CalledProcessError, subprocess.TimeoutExpired): pass
         (OUT / 'freeplane-progress.json').write_text(json.dumps({'steps': STEPS, 'visibleWindowsAtEnd': visible, 'processExit': process.poll()}, indent=2) + '\n')
+        if (preferences / 'accelerator.properties').exists(): shutil.copyfile(preferences / 'accelerator.properties', OUT / 'freeplane-effective-accelerators.txt')
         if current.exists(): shutil.copyfile(current, OUT / 'freeplane-working-copy.mm')
         if process.poll() is None:
             snapshot('freeplane-failure.png'); process.terminate()
