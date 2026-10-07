@@ -97,7 +97,8 @@ def main():
         assert added == with_z
         STEPS.append({'action': 'native-add-generated-ID', 'id': IDS['Z'], 'rows': added})
         open_node(IDS['Y']); key('Delete'); time.sleep(.3)
-        snapshot('freeplane-delete-dialog.png'); key('Return')
+        # This pinned native profile deletes immediately. Return would insert a new blank sibling.
+        snapshot('freeplane-after-delete.png')
         updated = [row for row in with_z if row[0] != IDS['Y']]
         save_expect(updated, 'native-delete-Y')
         shutil.copyfile(current, OUT / 'updated.mm'); snapshot('freeplane-updated.png')

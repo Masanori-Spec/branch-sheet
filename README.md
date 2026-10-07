@@ -2,7 +2,7 @@
 
 Refresh a category-tree workbook after a Freeplane node moves or changes its label. BranchSheet rebuilds the tree columns and carries three manual text columns by exact node ID: **Keyword**, **Description**, and **Owner**.
 
-This repository is a **native-feasibility candidate**. The core tests and synthetic 20,000-node scale check pass locally and in hosted CI. The actual Freeplane map now opens, but the [third attempt](https://github.com/Masanori-Spec/branch-sheet/actions/runs/37563134843) still stopped at the exact Copy Node ID clipboard check before editing. The next bounded probe adds an ordinary window manager and normal window activation to the disposable display, retaining focus diagnostics and all ID assertions. Actual editing and Calc save/reopen remain pending; there is no browser interface or completed-product claim.
+This repository is a **native-feasibility candidate**. The core tests and synthetic 20,000-node scale check pass locally and in hosted CI. The [fourth native attempt](https://github.com/Masanori-Spec/branch-sheet/actions/runs/37564405732) passed actual Freeplane ID selection, save/reopen, rename, cross-parent move and node creation. It then caught a harness error: Delete already removed Y without a dialog, and an unnecessary Return inserted a blank sibling. The retry removes that extra keypress while keeping the full tree/undo assertions. Calc save/reopen remains unrun; there is no browser interface or completed-product claim.
 
 ## Workflow
 
