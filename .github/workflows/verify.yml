@@ -1,0 +1,44 @@
+name: Native workbook refresh gate
+on: [push, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  freeplane-and-calc:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Install declared development and native test dependencies
+        run: |
+          npm ci --ignore-scripts --no-audit --no-fund
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends libreoffice-calc python3-uno xvfb xauth xdotool xclip scrot fonts-liberation fonts-noto-cjk
+      - name: Unit and bounded scale gates
+        run: |
+          mkdir -p evidence
+          npm test | tee evidence/unit-tests.txt
+          node scripts/scale.mjs evidence
+      - name: Fetch and verify official Freeplane 1.13.3
+        run: |
+          python3 scripts/prepare-native.py
+          java -version 2> evidence/java-version.txt
+          libreoffice --version > evidence/libreoffice-version.txt
+          dpkg-query -W libreoffice-calc python3-uno xvfb xdotool xclip scrot > evidence/native-packages.txt
+      - name: Actual Freeplane GUI edit and actual Calc workbook consumption
+        run: |
+          xvfb-run -a -s '-screen 0 1600x1000x24' bash -e -c 'python3 scripts/freeplane-native.py; /usr/bin/python3 scripts/calc-native.py'
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: branch-sheet-native-evidence
+          path: evidence/
+          if-no-files-found: error
+          retention-days: 14
