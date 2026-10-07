@@ -2,7 +2,7 @@
 
 ## Status
 
-The native application gate is authored but unrun. Passing local JavaScript tests is not Freeplane or Calc acceptance. The first publication is source-only feasibility work to execute this gate.
+The [first hosted run](https://github.com/Masanori-Spec/branch-sheet/actions/runs/37558401976), at commit `29bd65fa0138c6db1e4de772800f101c24016638`, passed all 38 core tests, the 20,000-node core gate, and official application digest/version checks. The application then showed a newer-map-format warning: the synthetic seed had declared application release 1.13.3 as its XML version, while the actual application reports XML format 1.12.15. No GUI edit or Calc check passed in that run. The seed is corrected and the narrow retry remains pending. Passing JavaScript tests is not native consumer acceptance.
 
 ## Actual Freeplane producer
 

@@ -45,9 +45,11 @@ def main():
     log = (OUT / 'freeplane.log').open('w')
     process = subprocess.Popen(command + [current.as_uri()], cwd=launcher.parent, stdout=log, stderr=subprocess.STDOUT)
     def focus():
-        ids = run('xdotool', 'search', '--onlyvisible', '--class', 'freeplane').stdout.split()
+        # Java's WM_CLASS is platform-dependent. Select only the explicit synthetic map title.
+        ids = run('xdotool', 'search', '--onlyvisible', '--name', current.stem).stdout.split()
         windows = [value for value in ids if current.stem.lower() in run('xdotool', 'getwindowname', value).stdout.lower()]
         if not windows: return None
+        assert len(windows) == 1, 'Ambiguous synthetic map window'
         window = windows[-1]; run('xdotool', 'windowfocus', '--sync', window)
         run('xdotool', 'windowsize', window, '1500', '920'); return window
     def open_node(node_id, verify_clipboard=True):
@@ -100,6 +102,13 @@ def main():
         (OUT / 'freeplane-result.json').write_text(json.dumps({'ids': IDS, 'steps': STEPS, 'before': expected_before(), 'updated': updated, 'restored': with_z, 'scope': 'Unmodified Freeplane GUI save/reopen/rename/move/add/delete/undo on one synthetic map; no scripts or formula evaluation'}, indent=2) + '\n')
         key('ctrl+q'); process.wait(timeout=20)
     finally:
+        visible = []
+        try:
+            for window in run('xdotool', 'search', '--onlyvisible', '--name', '.').stdout.split()[:40]:
+                visible.append({'window': window, 'title': run('xdotool', 'getwindowname', window).stdout.strip()[:512]})
+        except (subprocess.CalledProcessError, subprocess.TimeoutExpired): pass
+        (OUT / 'freeplane-progress.json').write_text(json.dumps({'steps': STEPS, 'visibleWindowsAtEnd': visible, 'processExit': process.poll()}, indent=2) + '\n')
+        if current.exists(): shutil.copyfile(current, OUT / 'freeplane-working-copy.mm')
         if process.poll() is None:
             snapshot('freeplane-failure.png'); process.terminate()
             try: process.wait(timeout=10)

@@ -2,7 +2,7 @@
 
 Refresh a category-tree workbook after a Freeplane node moves or changes its label. BranchSheet rebuilds the tree columns and carries three manual text columns by exact node ID: **Keyword**, **Description**, and **Owner**.
 
-This repository is a **native-feasibility candidate**. The local core tests and synthetic 20,000-node scale check pass. Actual Freeplane 1.13.3 editing and LibreOffice Calc XLSX save/reopen are defined in CI but have not yet passed. There is no browser interface or completed-product claim at this stage.
+This repository is a **native-feasibility candidate**. The core tests and synthetic 20,000-node scale check pass locally and in the [first hosted run](https://github.com/Masanori-Spec/branch-sheet/actions/runs/37558401976). That run stopped before native editing because the synthetic seed used the application release number as its map-format version. The corrected fixture uses Freeplane's actual XML format version, 1.12.15. Actual Freeplane editing and Calc save/reopen remain pending; there is no browser interface or completed-product claim.
 
 ## Workflow
 
