@@ -20,7 +20,7 @@ jobs:
         run: |
           npm ci --ignore-scripts --no-audit --no-fund
           sudo apt-get update
-          sudo apt-get install -y --no-install-recommends libreoffice-calc python3-uno xvfb xauth xdotool xclip scrot fonts-liberation fonts-noto-cjk
+          sudo apt-get install -y --no-install-recommends libreoffice-calc python3-uno xvfb xauth xdotool xclip scrot openbox fonts-liberation fonts-noto-cjk
       - name: Unit and bounded scale gates
         run: |
           mkdir -p evidence
@@ -31,10 +31,10 @@ jobs:
           python3 scripts/prepare-native.py
           java -version 2> evidence/java-version.txt
           libreoffice --version > evidence/libreoffice-version.txt
-          dpkg-query -W libreoffice-calc python3-uno xvfb xdotool xclip scrot > evidence/native-packages.txt
+          dpkg-query -W libreoffice-calc python3-uno xvfb xdotool xclip scrot openbox > evidence/native-packages.txt
       - name: Actual Freeplane GUI edit and actual Calc workbook consumption
         run: |
-          xvfb-run -a -s '-screen 0 1600x1000x24' bash -e -c 'python3 scripts/freeplane-native.py; /usr/bin/python3 scripts/calc-native.py'
+          xvfb-run -a -s '-screen 0 1600x1000x24' python3 scripts/native-desktop.py
       - uses: actions/upload-artifact@v4
         if: always()
         with:
