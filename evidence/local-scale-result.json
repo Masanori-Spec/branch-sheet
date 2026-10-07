@@ -1,0 +1,15 @@
+{
+  "nodes": 20000,
+  "removed": 100,
+  "renamed": 100,
+  "added": 100,
+  "annotationStringsChecked": 60300,
+  "inputMapBytes": 927303,
+  "priorBytes": 1404376,
+  "outputBytes": 1411672,
+  "initialAndAnnotationMilliseconds": 11654,
+  "refreshMilliseconds": 18023,
+  "totalMilliseconds": 36424,
+  "maxRssKiB": 548192,
+  "scope": "Core synthetic scale; native Calc reopen is a separate CI check"
+}

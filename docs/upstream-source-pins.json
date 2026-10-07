@@ -1,0 +1,74 @@
+{
+  "commit": "3a76de18523993a55bf885190438bffef38662a5",
+  "sourceFiles": [
+    {
+      "path": "freeplane/src/viewer/resources/version.properties",
+      "gitBlobSHA": "1c116be1c432a94469fa176046f19c5889cf0c4e"
+    },
+    {
+      "path": "freeplane/src/external/resources/xml/mindmapmodemenu.xml",
+      "gitBlobSHA": "90e5fd9d8a29171e76cb45a9c6464c1f952d2d5c"
+    },
+    {
+      "path": "freeplane/src/main/java/org/freeplane/core/util/Compat.java",
+      "gitBlobSHA": "daafa51af122afddaea8c922f551f8bec858e337"
+    },
+    {
+      "path": "freeplane/src/main/java/org/freeplane/main/application/ApplicationResourceController.java",
+      "gitBlobSHA": "6ed8bbf88962953d6ffc85058d981da9ecacd92d"
+    },
+    {
+      "path": "freeplane/src/main/java/org/freeplane/main/application/UserPropertiesUpdater.java",
+      "gitBlobSHA": "2c90fe888bb90cb6a4d8cdf6fb6c30616f1dfae2"
+    },
+    {
+      "path": "freeplane/src/main/java/org/freeplane/main/application/FreeplaneGUIStarter.java",
+      "gitBlobSHA": "2839f91e9a25c59eb6a36e9c7bba7db95bf45b15"
+    },
+    {
+      "path": "freeplane/src/main/java/org/freeplane/features/url/UrlManager.java",
+      "gitBlobSHA": "6aab08cf055b0715b43eebbe597b6a59200021f4"
+    },
+    {
+      "path": "freeplane/src/main/java/org/freeplane/features/map/clipboard/CopyIDAction.java",
+      "gitBlobSHA": "63b82e89c55914e8a2afe34f145031e181c363ab"
+    },
+    {
+      "path": "freeplane/src/main/java/org/freeplane/features/map/mindmapmode/DeleteAction.java",
+      "gitBlobSHA": "92589960c0742977d6b7d78114f8d5f6df4ef0e2"
+    },
+    {
+      "path": "freeplane/src/main/java/org/freeplane/features/map/NodeWriter.java",
+      "gitBlobSHA": "9af688e4ac8bd12de7ac2327967f6fb565fcbf96"
+    },
+    {
+      "path": "freeplane/src/main/java/org/freeplane/features/map/NodeBuilder.java",
+      "gitBlobSHA": "49c1a8bedb009b874969e9c068340a48513d5c69"
+    },
+    {
+      "path": "freeplane/src/main/java/org/freeplane/features/text/NodeTextBuilder.java",
+      "gitBlobSHA": "0e137731077238ad94049062c79c8718f6680d16"
+    },
+    {
+      "path": "freeplane/src/external/resources/xslt/mm2xls_utf8.xsl",
+      "gitBlobSHA": "65a79ae9146b991b7236fa841980dcab0ef9be53"
+    },
+    {
+      "path": "freeplane/src/main/java/org/freeplane/core/util/HtmlUtils.java",
+      "gitBlobSHA": "ff15b014af99deed26e0e119636d61ab36bcf0a9"
+    },
+    {
+      "path": "freeplane/src/main/java/org/freeplane/core/util/XmlUtils.java",
+      "gitBlobSHA": "144ea85c26ef8076a11278c0fa65122abcec5195"
+    },
+    {
+      "path": "freeplane/src/main/java/org/freeplane/features/text/RichTextModel.java",
+      "gitBlobSHA": "6c60a6d34433cc7c2018c7909a26d4cdf1cf2827"
+    },
+    {
+      "path": "freeplane/src/main/java/org/freeplane/features/map/SharedNodeData.java",
+      "gitBlobSHA": "5b42439ff0641af6eecd771a5f70a6990ba1edb7"
+    }
+  ],
+  "purpose": "Read-only primary-source references for native method and supported map subset; no vendor source is included"
+}
