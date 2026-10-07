@@ -3,6 +3,8 @@ const XMLNS = 'http://www.w3.org/2000/xmlns/';
 const XML = 'http://www.w3.org/XML/1998/namespace';
 const NS = 'http://schemas.openxmlformats.org/spreadsheetml/2006/main';
 const R = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships';
+export const CALC_EXT_URI = '{7626C862-2A13-11E5-B345-FEFF819CDC9F}';
+export const CALC_EXT_NS = 'http://schemas.libreoffice.org/';
 const list = s => s ? s.split(' ') : [];
 const rule = (children = '', attributes = '', text = false) => ({ children: list(children), attributes: list(attributes), text });
 const rich = {
@@ -11,10 +13,13 @@ const rich = {
 };
 export const SHARED = { sst: rule('si', 'count uniqueCount'), si: rule('t r'), ...rich };
 export const WORKBOOK = {
-  workbook: rule('fileVersion workbookPr bookViews sheets calcPr'), fileVersion: rule('', 'appName lastEdited lowestEdited rupBuild codeName'),
-  workbookPr: rule('', 'date1904 showObjects showBorderUnselectedTables filterPrivacy promptedSolutions showInk backupFile saveExternalLinkValues updateLinks codeName hidePivotFieldList showPivotChartFilter allowRefreshQuery autoCompressPictures refreshAllConnections checkCompatibility defaultThemeVersion'),
+  workbook: rule('fileVersion workbookPr workbookProtection bookViews sheets calcPr extLst'), fileVersion: rule('', 'appName lastEdited lowestEdited rupBuild codeName'),
+  workbookPr: { ...rule('', 'date1904 showObjects showBorderUnselectedTables filterPrivacy promptedSolutions showInk backupFile saveExternalLinkValues updateLinks codeName hidePivotFieldList showPivotChartFilter allowRefreshQuery autoCompressPictures refreshAllConnections checkCompatibility defaultThemeVersion dateCompatibility'), values: { dateCompatibility: ['false', '0'] } },
+  workbookProtection: rule(),
   bookViews: rule('workbookView'), workbookView: rule('', 'visibility minimized showHorizontalScroll showVerticalScroll showSheetTabs xWindow yWindow windowWidth windowHeight tabRatio firstSheet activeTab autoFilterDateGrouping'),
   sheets: rule('sheet'), sheet: rule('', 'name sheetId state r:id'), calcPr: rule('', 'calcId calcMode fullCalcOnLoad refMode iterate iterateCount iterateDelta fullPrecision calcCompleted calcOnSave concurrentCalc concurrentManualCount forceFullCalc'),
+  extLst: rule('ext'), ext: { ...rule('extCalcPr', 'uri'), exact: { uri: CALC_EXT_URI } },
+  extCalcPr: { ...rule('', 'stringRefSyntax'), namespace: CALC_EXT_NS, exact: { stringRefSyntax: 'CalcA1ExcelA1' } },
 };
 export const WORKSHEET = {
   worksheet: rule('sheetPr dimension sheetViews sheetFormatPr cols sheetData printOptions pageMargins pageSetup headerFooter rowBreaks colBreaks'),
@@ -38,7 +43,7 @@ export function grammar(vocabulary, root) {
   return {
     open(node) {
       const entry = vocabulary[node.local];
-      assert(node.uri === NS && entry && (stack.length ? stack.at(-1).entry.children.includes(node.local) : node.local === root), 'Unsupported OOXML element or placement');
+      assert(entry && node.uri === (entry.namespace ?? NS) && (stack.length ? stack.at(-1).entry.children.includes(node.local) : node.local === root), 'Unsupported OOXML element or placement');
       const parent = stack.at(-1);
       if (parent) {
         parent.counts[node.local] = (parent.counts[node.local] ?? 0) + 1;
@@ -51,6 +56,8 @@ export function grammar(vocabulary, root) {
         const key = attribute.uri === R ? `r:${attribute.local}` : attribute.local;
         assert((!attribute.uri || attribute.uri === R) && entry.attributes.includes(key), 'Unsupported OOXML attribute');
       }
+      if (entry.exact) for (const [key, expected] of Object.entries(entry.exact)) assert(node.attributes[key]?.value === expected, 'Unsupported OOXML metadata value');
+      if (entry.values) for (const [key, allowed] of Object.entries(entry.values)) assert(node.attributes[key] === undefined || allowed.includes(node.attributes[key].value), 'Unsupported OOXML metadata value');
       stack.push({ name: node.local, entry, counts: {} });
     },
     text(value) { assert(stack.at(-1)?.entry.text || /^[\t\n\r ]*$/.test(value), 'Unexpected non-whitespace OOXML content'); },
@@ -59,6 +66,8 @@ export function grammar(vocabulary, root) {
       if (current.name === 'r') assert(current.counts.t === 1, 'Rich-text run has no text');
       if (current.name === 'workbook') assert(current.counts.sheets === 1, 'Missing/repeated workbook sheets');
       if (current.name === 'worksheet') assert(current.counts.sheetData === 1, 'Missing/repeated worksheet data');
+      if (current.name === 'extLst') assert(current.counts.ext === 1, 'Expected the single supported Calc metadata extension');
+      if (current.name === 'ext') assert(current.counts.extCalcPr === 1, 'Missing supported Calc metadata payload');
     },
   };
 }

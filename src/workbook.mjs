@@ -23,7 +23,9 @@ function preflight(parts) {
   };
   for (const [name, source] of parts) parseXml(source, { open(n, depth) {
     if (depth === 1 && metadataRoots[name]) assert(n.uri === metadataRoots[name][0] && n.local === metadataRoots[name][1], 'Invalid formatting/property metadata root');
-    assert(!['f', 'formula', 'formula1', 'formula2', 'definedName', 'hyperlink', 'externalLink', 'oleObject', 'control', 'dataValidation', 'mergeCell', 'ext', 'AlternateContent'].includes(n.local), 'Formulas, links, merges, controls, and extensions are unsupported');
+    assert(!['f', 'formula', 'formula1', 'formula2', 'definedName', 'hyperlink', 'externalLink', 'oleObject', 'control', 'dataValidation', 'mergeCell', 'AlternateContent'].includes(n.local), 'Formulas, links, merges, controls, and extensions are unsupported');
+    // Workbook grammar validates exactly one inert Calc syntax marker; extensions elsewhere still reject.
+    assert(n.local !== 'ext' || name === 'xl/workbook.xml', 'Unsupported workbook extension');
     assert(attr(n, 'TargetMode') !== 'External', 'External relationships are unsupported');
     assert(!Object.values(n.attributes).some(a => /(?:vbaproject|macroenabled|externallink|oleobject)/i.test(a.value)), 'Macros and external workbook parts are unsupported');
   } });
@@ -60,9 +62,13 @@ function contentTypes(parts) {
     if (depth === 2) {
       const type = attr(n, 'ContentType');
       if (n.local === 'Default') {
-        const ext = attr(n, 'Extension'); assert(!defaults.has(ext) && ((ext === 'xml' && type === 'application/xml') || (ext === 'rels' && type === 'application/vnd.openxmlformats-package.relationships+xml')), 'Unsupported content-type default'); defaults.set(ext, type);
+        const ext = attr(n, 'Extension');
+        const unusedImageDeclaration = ((ext === 'png' && type === 'image/png') || (ext === 'jpeg' && type === 'image/jpeg')) && ![...parts.keys()].some(name => name.endsWith('.' + ext));
+        assert(!defaults.has(ext) && ((ext === 'xml' && type === 'application/xml') || (ext === 'rels' && type === 'application/vnd.openxmlformats-package.relationships+xml') || unusedImageDeclaration), 'Unsupported content-type default'); defaults.set(ext, type);
       } else {
-        const name = attr(n, 'PartName', ''); assert(name.startsWith('/') && parts.has(name.slice(1)) && !overrides.has(name) && typeFor(name.slice(1)) === type && type !== undefined, 'Invalid content-type override'); overrides.set(name, type);
+        const name = attr(n, 'PartName', '');
+        const relationshipOverride = ['/_rels/.rels', '/xl/_rels/workbook.xml.rels'].includes(name) && type === 'application/vnd.openxmlformats-package.relationships+xml';
+        assert(name.startsWith('/') && parts.has(name.slice(1)) && !overrides.has(name) && (typeFor(name.slice(1)) === type && type !== undefined || relationshipOverride), 'Invalid content-type override'); overrides.set(name, type);
       }
     }
   }, text(s) { assert(/^[\t\r\n ]*$/.test(s), 'Unexpected content-type text'); } });
@@ -142,7 +148,7 @@ export function readWorkbook(bytes) {
   contentTypes(parts);
   const packageRels = relationships(parts.get('_rels/.rels'), (type, target) => (
     (type === `${REL}officeDocument` && target === 'xl/workbook.xml') ||
-    (type === 'http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties' && target === 'docProps/core.xml') ||
+    (['http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties', 'http://schemas.openxmlformats.org/officedocument/2006/relationships/metadata/core-properties'].includes(type) && target === 'docProps/core.xml') ||
     (type === `${REL}extended-properties` && target === 'docProps/app.xml') || (type === `${REL}custom-properties` && target === 'docProps/custom.xml')
   ));
   assert([...packageRels.values()].filter(r => r.type === `${REL}officeDocument`).length === 1, 'Missing/repeated package workbook relationship');
@@ -161,7 +167,6 @@ export function readWorkbook(bytes) {
   const guard = grammar(WORKBOOK, 'workbook');
   parseXml(parts.get('xl/workbook.xml'), { open(n) {
     guard.open(n);
-    assert(n.uri === NS, 'Unknown workbook namespace');
     if (n.local === 'sheet') {
       const name = attr(n, 'name'), id = Object.values(n.attributes).find(a => a.local === 'id' && a.uri === REL.slice(0, -1))?.value;
       assert(SHEETS.includes(name) && !sheets.has(name) && rels.get(id)?.type === `${REL}worksheet`, 'Unknown or duplicate worksheet');

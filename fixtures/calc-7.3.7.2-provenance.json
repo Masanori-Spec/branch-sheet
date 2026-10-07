@@ -1,0 +1,12 @@
+{
+  "source": "Actual synthetic workbook saved and reopened in LibreOffice Calc via UNO",
+  "libreOfficeVersion": "7.3.7.2 30(Build:2)",
+  "runURL": "https://github.com/Masanori-Spec/branch-sheet/actions/runs/37566177136",
+  "sourceCommit": "0cb03284d471bf7db57953137f61ecc19ddf0cfb",
+  "artifactId": 11458019386,
+  "artifactSHA256": "a5109bb3c6e79e82443b4cffdb304e051f633037a016067ed1cd48ee7aff9a5c",
+  "member": "calc-annotated.xlsx",
+  "memberSHA256": "81ee4e737e9e998fb3dcae5878d4b5a1951ac005e0aaa231c3dd028484c076ee",
+  "memberBytes": 8658,
+  "data": "Committed synthetic seed only; Keyword/Description/Owner literals entered with native setString, complete rows sorted descending by node ID, saved as Calc Office Open XML, then reopened"
+}

@@ -80,5 +80,11 @@
     "referenceTag": "libreoffice-7.3.7.2",
     "path": "sc/source/ui/unoobj/datauno.cxx",
     "gitBlobSHA": "985f07cf47d41bfdd8d15235854a6d9e50cc0159"
+  },
+  "libreOfficeMetadataReference": {
+    "version": "7.3.7.2",
+    "referenceTag": "libreoffice-7.3.7.2",
+    "path": "sc/source/filter/excel/xeextlst.cxx",
+    "gitBlobSHA": "f556c47ecdcac75752b816232e5ea097aff67ae0"
   }
 }
