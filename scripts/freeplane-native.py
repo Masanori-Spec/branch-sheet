@@ -37,9 +37,13 @@ def main():
     launcher = pathlib.Path((WORK / 'launcher-path.txt').read_text().strip())
     profile = WORK / 'freeplane-profile'; preferences = profile / '1.12.x'; preferences.mkdir(parents=True, exist_ok=True)
     # Ordinary startup/keyboard preferences only. Official security and scripting policy stay untouched.
-    settings = 'load_last_map=false\nload_last_maps=false\nalways_load_last_maps=false\nacceleratorFor.MindMap/CopyIDAction=control alt I\n'
+    settings = 'load_last_map=false\nload_last_maps=false\nalways_load_last_maps=false\n'
+    shortcuts = 'acceleratorFor.MindMap/CopyIDAction=control alt I\n'
     (preferences / 'auto.properties').write_text(settings)
+    # ActionAcceleratorManager reads modern keys here. auto.properties is a legacy migration input.
+    (preferences / 'accelerator.properties').write_text(shortcuts)
     (OUT / 'freeplane-fixture-preferences.txt').write_text(settings)
+    (OUT / 'freeplane-fixture-accelerators.txt').write_text(shortcuts)
     current = WORK / 'native-map.mm'; shutil.copyfile(ROOT / 'fixtures/seed.mm', current)
     command = ['bash', str(launcher), '-U' + str(profile)]
     log = (OUT / 'freeplane.log').open('w')

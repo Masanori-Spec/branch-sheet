@@ -68,6 +68,10 @@
     {
       "path": "freeplane/src/main/java/org/freeplane/features/map/SharedNodeData.java",
       "gitBlobSHA": "5b42439ff0641af6eecd771a5f70a6990ba1edb7"
+    },
+    {
+      "path": "freeplane/src/main/java/org/freeplane/core/ui/ActionAcceleratorManager.java",
+      "gitBlobSHA": "585ed0aaed62bd1add47e0193a406cf28850c4c1"
     }
   ],
   "purpose": "Read-only primary-source references for native method and supported map subset; no vendor source is included"

@@ -2,7 +2,7 @@
 
 Refresh a category-tree workbook after a Freeplane node moves or changes its label. BranchSheet rebuilds the tree columns and carries three manual text columns by exact node ID: **Keyword**, **Description**, and **Owner**.
 
-This repository is a **native-feasibility candidate**. The core tests and synthetic 20,000-node scale check pass locally and in the [first hosted run](https://github.com/Masanori-Spec/branch-sheet/actions/runs/37558401976). That run stopped before native editing because the synthetic seed used the application release number as its map-format version. The corrected fixture uses Freeplane's actual XML format version, 1.12.15. Actual Freeplane editing and Calc save/reopen remain pending; there is no browser interface or completed-product claim.
+This repository is a **native-feasibility candidate**. The core tests and synthetic 20,000-node scale check pass locally and in hosted CI. The first native attempt stopped at a corrected synthetic map-format header. The [second attempt](https://github.com/Masanori-Spec/branch-sheet/actions/runs/37560335439) opened the actual Freeplane map but stopped because the test's Copy Node ID shortcut was stored in the wrong preference file. The narrow profile correction uses the official accelerator file. Actual editing and Calc save/reopen remain pending; there is no browser interface or completed-product claim.
 
 ## Workflow
 
