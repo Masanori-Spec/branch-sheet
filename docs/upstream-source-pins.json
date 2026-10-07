@@ -74,5 +74,11 @@
       "gitBlobSHA": "585ed0aaed62bd1add47e0193a406cf28850c4c1"
     }
   ],
-  "purpose": "Read-only primary-source references for native method and supported map subset; no vendor source is included"
+  "purpose": "Read-only primary-source references for native method and supported map subset; no vendor source is included",
+  "libreOfficeSortReference": {
+    "version": "7.3.7.2",
+    "referenceTag": "libreoffice-7.3.7.2",
+    "path": "sc/source/ui/unoobj/datauno.cxx",
+    "gitBlobSHA": "985f07cf47d41bfdd8d15235854a6d9e50cc0159"
+  }
 }

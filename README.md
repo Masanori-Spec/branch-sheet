@@ -2,7 +2,7 @@
 
 Refresh a category-tree workbook after a Freeplane node moves or changes its label. BranchSheet rebuilds the tree columns and carries three manual text columns by exact node ID: **Keyword**, **Description**, and **Owner**.
 
-This repository is a **native-feasibility candidate**. The core tests and synthetic 20,000-node scale check pass locally and in hosted CI. The [fourth native attempt](https://github.com/Masanori-Spec/branch-sheet/actions/runs/37564405732) passed actual Freeplane ID selection, save/reopen, rename, cross-parent move and node creation. It then caught a harness error: Delete already removed Y without a dialog, and an unnecessary Return inserted a blank sibling. The retry removes that extra keypress while keeping the full tree/undo assertions. Calc save/reopen remains unrun; there is no browser interface or completed-product claim.
+This repository is a **native-feasibility candidate**. The core tests and synthetic 20,000-node scale check pass locally and in hosted CI. The [fifth native attempt](https://github.com/Masanori-Spec/branch-sheet/actions/runs/37565186771) completed the actual Freeplane producer, including rename/move/delete/undo/reopen and a clean exit. Calc opened the generated workbook and passed literal annotation/type checks, then failed the required descending row-order assertion. The next correction supplies the UNO sort fields as an explicit typed sequence and retains native sort records. Complete Calc refresh/save/reopen acceptance is pending; there is no browser interface or completed-product claim.
 
 ## Workflow
 

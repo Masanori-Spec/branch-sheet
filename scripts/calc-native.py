@@ -114,18 +114,22 @@ def main():
             node_id = sheet.getCellByPosition(0, r).getString()
             values = X_TEXT if node_id == ids['X'] else Y_TEXT if node_id == ids['Y'] else ['', '', '']
             for c, value in enumerate(values, 6): sheet.getCellByPosition(c, r).setString(value)
-        verify(capture(document), 'before')
+        before_sort = capture(document); verify(before_sort, 'before')
+        (OUT / 'calc-progress.json').write_text(json.dumps({'beforeSort': before_sort}, ensure_ascii=False, indent=2) + '\n')
         region = sheet.getCellRangeByPosition(0, 1, 8, 5)
         field = TableSortField(); field.Field = 0; field.IsAscending = False; field.IsCaseSensitive = True; field.FieldType = ALPHANUMERIC
         descriptor = list(region.createSortDescriptor())
+        assert {'SortFields', 'ContainsHeader', 'IsSortColumns'} <= {item.Name for item in descriptor}, 'Unsupported native sort descriptor'
         for item in descriptor:
-            if item.Name == 'SortFields': item.Value = (field,)
+            if item.Name == 'SortFields': item.Value = uno.Any('[]com.sun.star.table.TableSortField', (field,))
             if item.Name == 'ContainsHeader': item.Value = False
             if item.Name == 'IsSortColumns': item.Value = False
         region.sort(tuple(descriptor))
         sorted_record = capture(document); verify(sorted_record, 'before', allow_sorted=True)
+        (OUT / 'calc-progress.json').write_text(json.dumps({'beforeSort': before_sort, 'afterSort': sorted_record, 'requestedSort': {'type': '[]com.sun.star.table.TableSortField', 'field': 0, 'ascending': False, 'containsHeader': False, 'sortColumns': False}}, ensure_ascii=False, indent=2) + '\n')
+        save(document, OUT / 'calc-annotated.xlsx')
         assert [r['values'][0] for r in sorted_record['Active']] == sorted(ids[k] for k in ['R', 'A', 'B', 'X', 'Y'])[::-1]
-        save(document, OUT / 'calc-annotated.xlsx'); screenshot('calc-annotated.png', document, columns='G1:I6'); close(document)
+        screenshot('calc-annotated.png', document, columns='G1:I6'); close(document)
         document = load(OUT / 'calc-annotated.xlsx'); annotated_record = capture(document); verify(annotated_record, 'before', allow_sorted=True); close(document)
         generate(OUT / 'updated.mm', 'refreshed', OUT / 'calc-annotated.xlsx')
         document = load(OUT / 'refreshed.xlsx'); refreshed_record = capture(document); verify(refreshed_record, 'updated')

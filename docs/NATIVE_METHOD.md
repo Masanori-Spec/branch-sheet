@@ -2,7 +2,7 @@
 
 ## Status
 
-The first three hosted runs established the core gates and corrected fixture map-format/shortcut setup, but stopped before native edits. The [fourth run](https://github.com/Masanori-Spec/branch-sheet/actions/runs/37564405732), at `e7e9061d7393f99bd85b10d7c72a4da1308e9a98`, confirmed that ordinary window-manager activation resolves input delivery. Exact fresh clipboard IDs, actual save/reopen, X rename, cross-parent move and new-node creation all passed. Its screenshot then showed Y already deleted with no dialog; the harness's unconditional Return created a blank sibling. The complete tree assertion rejected that unintended extra node. The correction removes the extra Return, keeping the deletion/undo/reopen oracles intact. Calc remains unrun; complete native acceptance is pending.
+The first four hosted runs established the core gates and corrected native fixture/profile/focus/deletion harness setup. The [fifth run](https://github.com/Masanori-Spec/branch-sheet/actions/runs/37565186771), at `313ff58c27ecd38aa0453dcb2a4c71aca3ced2d7`, completed all 33 recorded Freeplane selection/edit/save/reopen actions with exact trees and a clean exit. Actual Calc 7.3.7.2 then opened the workbook and passed literal annotation/type checks, but failed the required descending row order. Its pinned `ScSortDescriptor::FillSortParam` accepts typed `Sequence<SortField>` or `Sequence<TableSortField>` values; the next correction uses explicit `uno.Any('[]com.sun.star.table.TableSortField', ...)` instead of an untyped tuple. Before/after native sort records and the saved workbook are retained even if the order check fails. The order and annotation oracles are unchanged; complete Calc acceptance is pending.
 
 ## Actual Freeplane producer
 
