@@ -20,7 +20,7 @@ jobs:
         run: |
           npm ci --ignore-scripts --no-audit --no-fund
           sudo apt-get update
-          sudo apt-get install -y --no-install-recommends libreoffice-calc python3-uno xvfb xauth xdotool xclip scrot openbox fonts-liberation fonts-noto-cjk
+          sudo apt-get install -y --no-install-recommends libreoffice-calc python3-uno xvfb xauth xdotool xclip scrot openbox fonts-liberation fonts-noto-cjk poppler-utils
       - name: Unit and bounded scale gates
         run: |
           mkdir -p evidence
@@ -35,10 +35,21 @@ jobs:
       - name: Actual Freeplane GUI edit and actual Calc workbook consumption
         run: |
           xvfb-run -a -s '-screen 0 1600x1000x24' python3 scripts/native-desktop.py
+      - name: Actual offline browser downloads and responsive review
+        run: |
+          npx playwright install --with-deps chromium
+          npm run test:browser
+      - name: Reopen actual browser downloads in native Calc
+        run: |
+          xvfb-run -a -s '-screen 0 1600x1000x24' python3 scripts/native-desktop.py --browser-consumer
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: branch-sheet-native-evidence
-          path: evidence/
+          path: |
+            evidence/
+            dist/branchsheet.html
+            test-results/
+            playwright-report/
           if-no-files-found: error
           retention-days: 14
